@@ -24,44 +24,38 @@ class BoggleBoard
   end
 
   def shake!
-      # #take spaces
-      # output_string = String.new
-      # #REPLACE them with random letters (create a variable for this)
-      # alphabet_to_mess_up = @alphabet
-      # #spit it into our board
-      # 4.times do
-      #   output_string << alphabet_to_mess_up.sort_by {rand}.shift(4).join(" ") + ("\n")
-      # end
-      # #call the shake! method BoggleBoard class
-      #  puts output_string
-      # #could use MAP
-
-      # @grid.map! do |space|
-      #   space = @alphabet.shuffle.take(1)
 
       output = []
-      face_up_dice = []
+      diceShake = []
       dice_var = ""
 
       for i in 0..15 do
-        output << @dice[i].split(//)
-        face_up_dice<<output[i].sample
+      #this syntax split the strings into 16 subarrays within 1 array
+      output << @dice [i].split("")
+
+      #this syntax randomly picks one string from each subarray
+      #the result is a single - flat array of randomly picked letters
+      diceShake<<output[i].sample
       end
-      face_up_dice = face_up_dice.map! {|x| x.gsub(/Q/, 'Qu')}
-        #print face_up_dice
-        #horizontal check for duplicate elements, their removal a print of the rest
-        face_up_dice.each_slice(3)
-        puts face_up_dice.uniq
-        dice_var << face_up_dice.join("  ") + "\n"
-        puts dice_var
 
+      #replacing letter "Q" for combination of "Qu" if there is any
+      diceShake = diceShake.map! {|x| x.gsub(/Q/, 'Qu')}
 
-      #here will be a code checking for doubled letters horizontally, vertically and diagonally
-      #the correct checks will be stored in the dice_var otherwise there will be a message like no unique
-      #relations found.
-
-
+      #iterrating through the array 4 times, picking up first 4 indexes,
+      #joining them together and storring them in a string
+      #each group on a new line
+      4.times do
+      dice_var << diceShake.shift(4).join("  ") + "\n"
+      end
+      puts dice_var
   end
+    #now, there needs to be a given/assigned word which will be used
+    #for searching through the randomly picked array of letters.
+
+    def board(word)
+      searchedWordSplitted = word.split("")
+      print searchedWordSplitted
+    end
 
 
 
@@ -69,13 +63,13 @@ class BoggleBoard
   # Defining to_s on an object controls how the object is
   # represented as a string, e.g., when you pass it to puts
   def to_s
-    #a new string for the output
+    #a new variable for the output
     output_string = ""
     #making a variable to mess with so I don't screw up my instance variable
     # @alphabet.delete("Q")
     # @alphabet.push("Qu")
     4.times do
-      output_string << @dice.shuffle[0..25].shift(4).join(" ") + "\n"
+      output_string << @dice.shuffle[0..15].shift(4).join(" ") + "\n"
     end
 
     # output_string = output_string + @alphabet[4..7].join(" ") + "\n"
@@ -85,4 +79,5 @@ class BoggleBoard
 end
 game = BoggleBoard.new
 # puts game.to_s
-puts game.shake!
+game.shake!
+game.board("apple")
