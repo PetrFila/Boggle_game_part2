@@ -25,22 +25,22 @@ class BoggleBoard
 
   def shake!
 
-      output = []
+      @output = []
       diceShake = []
       dice_var = ""
 
       for i in 0..15 do
       #this syntax split the strings into 16 subarrays within 1 array
-      output << @dice [i].split("")
+      @output << @dice [i].split("")
 
       #this syntax randomly picks one string from each subarray
       #the result is a single - flat array of randomly picked letters
-      diceShake<<output[i].sample
+      diceShake<<@output[i].sample
       end
 
       #replacing letter "Q" for combination of "Qu" if there is any
       diceShake = diceShake.map! {|x| x.gsub(/Q/, 'Qu')}
-
+      @output = diceShake.flatten
       #iterrating through the array 4 times, picking up first 4 indexes,
       #joining them together and storring them in a string
       #each group on a new line
@@ -53,8 +53,20 @@ class BoggleBoard
     #for searching through the randomly picked array of letters.
 
     def board(word)
+      extractedLetter = ""
+      foundLetters =[]
       searchedWordSplitted = word.split("")
       print searchedWordSplitted
+
+      #searchedWordSplitted.each do |letter|
+        extractedLetter = searchedWordSplitted[0]
+        extractedLetter = extractedLetter.upcase!
+        print extractedLetter
+        #The idea is to extract each letter from the array
+        #and compare it with with the board.
+      #end
+      print @output.include?(extractedLetter)
+
     end
 
 
